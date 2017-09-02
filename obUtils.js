@@ -1,11 +1,8 @@
 function getHighestOrder(orderArr) {
   try {
-    let highest = 0;
-
-    orderArr.forEach(o => {
-      const value = Number(o[0]);
-      if(value > Number(highest)) highest = o[0];
-    });
+    return orderArr.reduce((highest, order) => {
+      return Number(order[0]) > Number(highest) ? order[0] : highest;
+    }, orderArr[0][0]);
 
     return highest;
   } catch(e) {
