@@ -31,3 +31,18 @@ describe('getHighestOrder', () => {
     should.throw(() => obUtils.getHighestOrder());
   });
 });
+
+describe('getLowestOrder', () => {
+  it('should return the lowest order', () => {
+    const asks = [
+      ["342.85", "1", 1],
+      ["341.85", "1", 1],
+      ["349.85", "1", 1],
+      ["348.85", "1", 1],
+      ["32.85", "1", 1],
+      ["3412.85", "1", 1],
+    ];
+
+    obUtils.getLowestOrder(asks).should.equal('32.85');
+  });
+});

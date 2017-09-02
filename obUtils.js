@@ -13,6 +13,15 @@ function getHighestOrder(orderArr) {
   }
 }
 
+function getLowestOrder(orderArr) {
+  return orderArr.reduce((lowest, order) => {
+    if(Number(order[0]) < Number(lowest)) return order[0];
+
+    return lowest;
+  }, orderArr[0][0]);
+}
+
 module.exports = {
-  getHighestOrder
+  getHighestOrder,
+  getLowestOrder
 };
