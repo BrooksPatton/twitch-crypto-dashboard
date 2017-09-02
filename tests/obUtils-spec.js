@@ -45,4 +45,10 @@ describe('getLowestOrder', () => {
 
     obUtils.getLowestOrder(asks).should.equal('32.85');
   });
+
+  it('should throw an error when not passed in an array', () => {
+    const asks = {};
+
+    should.throw(() => obUtils.getLowestOrder(asks))
+  });
 });

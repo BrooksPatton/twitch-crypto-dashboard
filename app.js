@@ -2,7 +2,7 @@ const express = require('express');
 const Gdax = require('gdax');
 const WebSocket = require('ws');
 const http = require('http');
-const obUtils = require('./obUtils);
+const obUtils = require('./obUtils');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,8 +22,10 @@ wss.on('connection', ws => {
 
         const obj = {
           data,
-          highest: obUtils.getHighestOrder(data),
-          lowest: obUtils.getLowestOrder(data)
+          highestAsk: obUtils.getHighestOrder(data.asks),
+          lowestAsk: obUtils.getLowestOrder(data.asks),
+          highestBid: obUtils.getHighestOrder(data.bids),
+          lowestBid: obUtils.getLowestOrder(data.bids)
         };
 
         ws.send(JSON.stringify(obj));
