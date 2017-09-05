@@ -13,21 +13,9 @@ socket.addEventListener('message', e => {
   const lowestBid = message.lowestBid;
   const highestBid = message.highestBid;
 
-  asks = message.data.asks.map(order => {
-    return [
-      map(Number(order[0]), Number(lowestAsk), Number(highestAsk), 0, width/2),
-       order[1],
-       order[2]
-    ];
-  });
+  setupOrders(asks, message.data.asks, lowestAsk, highestAsk, 0, 'ask');
+  console.log('asks', asks);
 
-  bids = message.data.bids.map(order => {
-    return [
-      map(Number(order[0]), Number(lowestBid), Number(highestBid), width/2, width),
-      order[1],
-      order[2]
-    ];
-  });
   console.log(message);
 });
 
@@ -37,25 +25,33 @@ function getSocketUri() {
 }
 
 function setup() {
-  createCanvas(1024, 768);
+  createCanvas(2500, 430);
   background(0);
 }
 
 function draw() {
-  stroke(255);
-  fill(255, 255, 0);
-
+  background(0);
   asks.forEach(ask => {
-    ellipse(ask[0], height/2, Number(ask[1]));
-  });
-
-  stroke(255);
-  fill(0, 255, 255);
-
-  bids.forEach(bid => {
-    ellipse(bid[0], height/2, Number(bid[1]));
+    ask.run();
   });
 
   stroke(255, 0, 0);
   line(width/2, 0, width/2, height);
+}
+
+function setupOrders(target, rawOrders, lowest, highest, startX, type) {
+  const xInc = (width/2) / rawOrders.length;
+  let currentX = 0 - xInc;
+
+  rawOrders.forEach(order => {
+    const price = map(Number(order[0]), lowest, highest, startX, startX + width / 2);
+    const location = createVector(currentX, height);
+    const amount = Number(order[1]) * 4;
+    const orderId = order[2];
+    const newOrder = new Order(price, amount, orderId, type, location);
+
+    target.push(newOrder);
+
+    currentX = currentX + xInc;
+  });
 }

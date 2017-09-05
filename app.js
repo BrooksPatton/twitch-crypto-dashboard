@@ -35,7 +35,7 @@ wss.on('connection', ws => {
 });
 
 function getOrderBook(cb) {
-  publicClient.getProductOrderBook({level: 2}, cb);
+  publicClient.getProductOrderBook({level: 3}, cb);
 }
 
 app.use(express.static('public'));
